@@ -1,0 +1,13 @@
+# Ignore Django stuff
+__pycache__/
+*.pyc
+*.sqlite3
+*.log
+db.sqlite3
+
+# Ignore environment/config files
+*.env
+
+# Ignore static/media if generated
+/static/
+/media/
