@@ -9,5 +9,5 @@ db.sqlite3
 *.env
 
 # Ignore static/media if generated
-/static/
-/media/
+# /static/
+# /media/
