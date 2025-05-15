@@ -39,8 +39,9 @@ TechBlog/
 
 ## Additional information
 incorporated send message provision as a dummy and printing the conetnt on termina
-![alt text](image-2.png)
+![image](https://github.com/user-attachments/assets/c15aa7a1-eac7-41be-8006-8bbd70381f75)
+
 
 when we click on Send Message button the below get printed in terminal as just added for testing
 
-![alt text](image-3.png)
+![image](https://github.com/user-attachments/assets/0c4d4dc4-7623-489b-b12f-c380974ecc27)
