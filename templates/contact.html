@@ -3,13 +3,13 @@
 {% block content %}
 <!-- Page Header Start -->
 <div class="container py-5 px-2 bg-primary">
-    <div class="row py-5 px-4">
+    <div class="row py-5 px-4" style="padding-top: 1rem !important;padding-bottom: 1rem !important;">
         <div class="col-sm-6 text-center text-md-left">
             <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold">Contact Me</h1>
         </div>
         <div class="col-sm-6 text-center text-md-right">
             <div class="d-inline-flex pt-2">
-                <h4 class="m-0 text-white"><a class="text-white" href="">Home</a></h4>
+                <h4 class="m-0 text-white"><a class="text-white" href="{% url "index" %}">Home</a></h4>
                 <h4 class="m-0 text-white px-2">/</h4>
                 <h4 class="m-0 text-white">Contact Me</h4>
             </div>
@@ -40,22 +40,27 @@
     </div>
     <div class="col-md-12 pb-5">
         <div class="contact-form">
-            <div id="success"></div>
-            <form name="sentMessage" id="contactForm" novalidate="novalidate">
+            <div id="success"> {%if messages%}
+                {%for i in messages%}
+                    <p style="color: #18d218;">{{i}}</p>
+                {%endfor%}
+                {%endif%}</div>
+            <form method="POST" action="{% url "contctmessage" %}">
+                {% csrf_token %}
                 <div class="control-group">
-                    <input type="text" class="form-control" id="name" placeholder="Your Name" required="required" data-validation-required-message="Please enter your name" />
+                    <input type="text" class="form-control" name="name" placeholder="Your Name" required="required" data-validation-required-message="Please enter your name" />
                     <p class="help-block text-danger"></p>
                 </div>
                 <div class="control-group">
-                    <input type="email" class="form-control" id="email" placeholder="Your Email" required="required" data-validation-required-message="Please enter your email" />
+                    <input type="email" class="form-control" name="email" placeholder="Your Email" required="required" data-validation-required-message="Please enter your email" />
                     <p class="help-block text-danger"></p>
                 </div>
                 <div class="control-group">
-                    <input type="text" class="form-control" id="subject" placeholder="Subject" required="required" data-validation-required-message="Please enter a subject" />
+                    <input type="text" class="form-control" name="subject" placeholder="Subject" required="required" data-validation-required-message="Please enter a subject" />
                     <p class="help-block text-danger"></p>
                 </div>
                 <div class="control-group">
-                    <textarea class="form-control" rows="8" id="message" placeholder="Message" required="required" data-validation-required-message="Please enter your message"></textarea>
+                    <textarea class="form-control" rows="8" name="message" placeholder="Message" required="required" data-validation-required-message="Please enter your message"></textarea>
                     <p class="help-block text-danger"></p>
                 </div>
                 <div>

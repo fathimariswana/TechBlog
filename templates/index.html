@@ -16,7 +16,7 @@
                         <small class="mr-2"><i class="fa fa-folder"></i> {{i.category}}</small>
                         <small class="mr-2"><i class="fa fa-comments"></i> 15 Comments</small>
                     </div>
-                    <a href="" class="btn btn-lg btn-outline-light mt-4">Read More</a>
+                    <a href="{% url 'blogcontent' i.id %}" class="btn btn-lg btn-outline-light mt-4">Read More</a>
                 </div>
             </div>
             {% endfor %}
@@ -49,7 +49,7 @@
             <p>
                 {{i.short_desc}}
             </p>
-            <a class="btn btn-link p-0" href="">Read More <i class="fa fa-angle-right"></i></a>
+            <a class="btn btn-link p-0" href="{% url 'blogcontent' i.id %}">Read More <i class="fa fa-angle-right"></i></a>
         </div>
     </div>
     {% endfor %}

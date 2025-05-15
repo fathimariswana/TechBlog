@@ -3,7 +3,7 @@
 {% block content %}
  <!-- Page Header Start -->
  <div class="container py-5 px-2 bg-primary">
-    <div class="row py-5 px-4">
+    <div class="row py-5 px-4" style="padding-top: 1rem !important;padding-bottom: 1rem !important;">
         <div class="col-sm-6 text-center text-md-left">
             <h1 class="mb-3 mb-md-0 text-white text-uppercase font-weight-bold">Blog Detail</h1>
         </div>
@@ -29,69 +29,87 @@
                 <p class="mr-3 text-muted"><i class="fa fa-folder"></i> {{data.category}}</p>
                 <p class="mr-3 text-muted"><i class="fa fa-comments"></i> 15 Comments</p>
             </div>
-            <p>{{data.content}}</p>
-            {% comment %} <h3 class="mb-3 font-weight-bold">Est dolor lorem et ea</h3>
-            <img class="w-50 float-left mr-4 mb-3" src="img/blog-1.jpg" alt="Image">
-            <p>Diam dolor est labore duo invidunt ipsum clita et, sed et lorem voluptua tempor invidunt at est sanctus sanctus. Clita dolores sit kasd diam takimata justo diam lorem sed. Magna amet sed rebum eos. Clita no magna no dolor erat diam tempor rebum consetetur, sanctus labore sed nonumy diam lorem amet eirmod. No at tempor sea diam kasd, takimata ea nonumy elitr sadipscing gubergren erat. Gubergren at lorem invidunt sadipscing rebum sit amet ut ut, voluptua diam dolores at sadipscing stet. Clita dolor amet dolor ipsum vero ea ea eos. Invidunt sed diam dolores takimata dolor dolore dolore sit. Sit ipsum erat amet lorem et, magna sea at sed et eos. Accusam eirmod kasd lorem clita sanctus ut consetetur et. Et duo tempor sea kasd clita ipsum et. Takimata kasd diam justo est eos erat aliquyam et ut. Ea sed sadipscing no justo et eos labore, gubergren ipsum magna dolor lorem dolore, elitr aliquyam takimata sea kasd dolores diam, amet et est accusam labore eirmod vero et voluptua. Amet labore clita duo et no. Rebum voluptua magna eos magna, justo gubergren labore sit voluptua eos. Dolores et no stet magna et gubergren amet dolor sit, lorem dolore est vero et.</p> {% endcomment %}
+            <p>{{data.content |safe }}</p>
         </div>
         
         <div class="col-12 py-4">
             <div class="btn-group btn-group-lg w-100">
-                <button type="button" class="btn btn-outline-primary"><i class="fa fa-angle-left mr-2"></i> Previous</button>
-                <button type="button" class="btn btn-outline-primary">Next<i class="fa fa-angle-right ml-2"></i></button>
+                {% if previous_post %}
+                <a href="{% url 'blogcontent' previous_post.id %}">
+                    <button type="button" class="btn btn-outline-primary">
+                        <i class="fa fa-angle-left mr-2"></i> Previous</button>
+                    </a>
+                    {% endif %}
+                    {% if next_post %}
+                <a href="{% url 'blogcontent' next_post.id %}"><button type="button" class="btn btn-outline-primary">Next<i class="fa fa-angle-right ml-2"></i></button></a>
+                {% endif %}
             </div> 
         </div>
         <div class="col-12 py-4">
             <h3 class="mb-4 font-weight-bold">3 Comments</h3>
+            {% for singlecmnt in comment %}
             <div class="media mb-4">
-                <img src="img/user.jpg" alt="Image" class="mr-3 mt-1 rounded-circle" style="width:60px;">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 24px;
+    width: 26px;"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>
                 <div class="media-body">
-                    <h4>John Doe <small><i>01 Jan 2045 at 12:00pm</i></small></h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <button class="btn btn-sm btn-light">Reply</button>
-                </div>
-            </div>
-            <div class="media mb-4">
-                <img src="img/user.jpg" alt="Image" class="mr-3 mt-1 rounded-circle"
-                    style="width:60px;">
-                <div class="media-body">
-                    <h4>John Doe <small><i>01 Jan 2045 at 12:00pm</i></small></h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <button class="btn btn-sm btn-light">Reply</button>
-                    <div class="media mt-4">
-                        <img src="img/user.jpg" alt="Image" class="mr-3 mt-1 rounded-circle"
-                            style="width:60px;">
+                    <h4>{{singlecmnt.name}} <small><i>{{singlecmnt.created_at}}</i></small></h4>
+                    <p>{{singlecmnt.message}}</p>
+                    {% if singlecmnt.replies %}
+                    {% for rep in singlecmnt.replies %}
                         <div class="media-body">
-                            <h4>John Doe <small><i>01 Jan 2045 at 12:00pm</i></small></h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            </p>
-                            <button class="btn btn-sm btn-light">Reply</button>
+                            <h5>{{ rep.name }}<small><i>{{ rep.created_at }}</i></small></h5>
+                            <p>{{ rep.replymsg }} </p>
                         </div>
-                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if user.is_staff %}
+                    <p>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{singlecmnt.id}}" aria-expanded="false" aria-controls="collapseExample">
+                          Reply
+                        </button>
+                      </p>
+                      <div class="collapse" id="collapseExample{{singlecmnt.id}}">
+                        <div class="card card-body">
+                          <form action="{% url "reply" %}" method="POST">
+                            {% csrf_token %}
+                            <input type="text" name="commentid" value={{singlecmnt.id}} hidden>
+                            <div class="form-group">
+                                <label for="message">Message *</label>
+                                <textarea name="message" cols="30" rows="5" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Leave Reply" class="btn btn-primary">
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      {% endif %}
+                      
                 </div>
+            
             </div>
+            {% endfor %}
         </div>
+           
+        
         <div class="col-12">
             <h3 class="mb-4 font-weight-bold">Leave a comment</h3>
-            <form>
+            <form method="POST" action="{% url "comment" %}">
+                {% csrf_token %}
+                <input type="text" name="blog_id" value="{{data.id}}" hidden>
                 <div class="form-group">
                     <label for="name">Name *</label>
-                    <input type="text" class="form-control" id="name">
+                    <input type="text" class="form-control" name="name">
                 </div>
                 <div class="form-group">
                     <label for="email">Email *</label>
-                    <input type="email" class="form-control" id="email">
-                </div>
-                <div class="form-group">
-                    <label for="website">Website</label>
-                    <input type="url" class="form-control" id="website">
+                    <input type="email" class="form-control" name="email">
                 </div>
 
                 <div class="form-group">
                     <label for="message">Message *</label>
-                    <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                    <textarea name="message" cols="30" rows="5" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Leave Comment" class="btn btn-primary">
